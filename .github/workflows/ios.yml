@@ -30,10 +30,13 @@ jobs:
         run: |
           brew tap facebook/fb
           brew install facebook/fb/idb-companion
+          
+      - uses: futureware-tech/simulator-action@v2
+        with:
+          model: 'iPhone 14'
+          os_version: '16.2'
         
-      - run: xcrun simctl boot 'iPhone 14'
-      
-      - run: xcodebuild -project MaestroDemo.xcodeproj -scheme MaestroDemo -destination 'platform=iOS Simulator,name=iPhone 14,os=16.2'
+      - run: xcodebuild -project MaestroDemo.xcodeproj -scheme MaestroDemo -destination 'platform=iOS Simulator,name=iPhone 14'
       
       - run: xcrun simctl install booted "/Users/runner/Desktop/DebugLocation/MaestroDemo.app"
             
