@@ -33,7 +33,7 @@ jobs:
         
       - run: xcrun simctl boot 'iPhone 14'
       
-      - run: xcodebuild -project MaestroDemo.xcodeproj -scheme MaestroDemo -destination 'platform=iOS Simulator,name=iPhone 14'
+      - run: xcrun xcodebuild -project MaestroDemo.xcodeproj -scheme MaestroDemo -destination 'platform=iOS Simulator,name=iPhone 14' build
             
       - name: Run tests
         run: maestro test .maestro/test.yaml
