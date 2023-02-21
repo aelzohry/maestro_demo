@@ -32,3 +32,6 @@ jobs:
           brew install facebook/fb/idb-companion
         
       - run: xcodebuild -project MaestroDemo.xcodeproj -scheme MaestroDemo -destination 'platform=iOS Simulator,name=iPhone 14'
+      
+      - name: Run tests
+        run: maestro test .maestro/test.yaml
