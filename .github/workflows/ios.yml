@@ -17,7 +17,7 @@ jobs:
         
       - uses: actions/setup-java@v2
         with:
-          distribution: zulu
+          distribution: adopt
           java-version: 11
           
       - name: Install maestro
@@ -32,8 +32,8 @@ jobs:
           brew install facebook/fb/idb-companion
         
       - run: xcodebuild -project MaestroDemo.xcodeproj -scheme MaestroDemo -destination 'platform=iOS Simulator,name=iPhone 14'
-      
-      - run: xcrun simctl boot 'iPhone 14'
-      
+            
       - name: Run tests
-        run: maestro test .maestro/test.yaml
+        run: |
+          maestro test .maestro/test.yaml
+          14
