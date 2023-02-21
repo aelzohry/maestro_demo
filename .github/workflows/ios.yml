@@ -33,7 +33,9 @@ jobs:
         
       - run: xcrun simctl boot 'iPhone 14'
       
-      - run: xcrun xcodebuild -project MaestroDemo.xcodeproj -scheme MaestroDemo -destination 'platform=iOS Simulator,name=iPhone 14' build
+      - run: xcodebuild -project MaestroDemo.xcodeproj -scheme MaestroDemo SYMROOT="/Users/runner/Desktop/DebugLocation"
+      
+      - run: xcrun simctl install booted "/Users/runner/Desktop/DebugLocation/MaestroDemo.app"
             
       - name: Run tests
         run: maestro test .maestro/test.yaml
