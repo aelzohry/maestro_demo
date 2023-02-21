@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  test:
+  build:
     name: Build and Test default scheme using any available iPhone simulator
     runs-on: macos-latest
 
