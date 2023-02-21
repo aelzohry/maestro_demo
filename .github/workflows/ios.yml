@@ -33,7 +33,7 @@ jobs:
         
       - run: xcrun simctl boot 'iPhone 14'
       
-      - run: xcodebuild -project MaestroDemo.xcodeproj -scheme MaestroDemo -destination 'platform=iOS Simulator,name=iPhone 14,os=16.2' SYMROOT="/Users/runner/Desktop/DebugLocation"
+      - run: xcodebuild -project MaestroDemo.xcodeproj -scheme MaestroDemo -destination 'platform=iOS Simulator,name=iPhone 14,os=16.2'
       
       - run: xcrun simctl install booted "/Users/runner/Desktop/DebugLocation/MaestroDemo.app"
             
