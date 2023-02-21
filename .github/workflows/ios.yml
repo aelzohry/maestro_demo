@@ -36,7 +36,12 @@ jobs:
           model: 'iPhone 14'
           os_version: '16.2'
         
-      - run: xcodebuild test -project MaestroDemo.xcodeproj -scheme MaestroDemo -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.2'
+      - uses: sersoft-gmbh/xcodebuild-action@v2
+        with:
+          project: MaestroDemo.xcodeproj
+          scheme: MaestroDemo
+          destination: platform=iOS Simulator, name=iPhone 14, OS=16.2
+          action: test
                   
       - name: Run tests
         run: maestro test .maestro/test.yaml
