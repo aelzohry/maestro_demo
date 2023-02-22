@@ -51,12 +51,12 @@ jobs:
         run: xcrun simctl launch booted com.aelzohry.MaestroDemo
         
       - name: take screenshot
-        run: xcrun simctl io booted screenshot /tmp/screenshot.png
+        run: xcrun simctl io booted screenshot screenshot.png
         
       - uses: actions/upload-artifact@v3
         with:
           name: my-artifact
-          path: /tmp/screenshot.png
+          path: screenshot.png
                   
 #      - name: Run tests
 #        run: maestro test .maestro/test.yaml
