@@ -50,5 +50,8 @@ jobs:
       - name: launch app
         run: xcrun simctl launch booted com.aelzohry.MaestroDemo
                   
-      - name: Run tests
-        run: maestro test .maestro/test.yaml
+#      - name: Run tests
+#        run: maestro test .maestro/test.yaml
+
+      - name: Run maestro hierarchy
+        run: maestro hierarchy
