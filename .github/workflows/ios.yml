@@ -47,8 +47,16 @@ jobs:
       - name: install app in simulator
         run: xcrun simctl install booted "/tmp/app/Build/Products/Debug-iphonesimulator/MaestroDemo.app"
         
-#      - name: launch app
-#        run: xcrun simctl launch booted com.aelzohry.MaestroDemo
+      - name: launch app
+        run: xcrun simctl launch booted com.aelzohry.MaestroDemo
+        
+      - name: take screenshot
+        run: xcrun simctl io booted screenshot /tmp/screenshot.png
+        
+      - uses: actions/upload-artifact@v3
+        with:
+          name: my-artifact
+          path: /tmp/screenshot.png
                   
 #      - name: Run tests
 #        run: maestro test .maestro/test.yaml
@@ -56,5 +64,5 @@ jobs:
 #      - name: Run maestro hierarchy
 #        run: maestro hierarchy
 
-      - name: Run settings test
-        run: maestro test .maestro/settings.yaml
+#      - name: Run settings test
+#        run: maestro test .maestro/settings.yaml
