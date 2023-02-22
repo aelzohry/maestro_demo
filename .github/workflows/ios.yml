@@ -50,13 +50,13 @@ jobs:
 #      - name: launch app
 #        run: xcrun simctl launch booted com.aelzohry.MaestroDemo
         
-      - name: take screenshot
-        run: xcrun simctl io booted screenshot screenshot.png
+      # - name: take screenshot
+      #   run: xcrun simctl io booted screenshot screenshot.png
         
-      - uses: actions/upload-artifact@v3
-        with:
-          name: my-artifact
-          path: screenshot.png
+      # - uses: actions/upload-artifact@v3
+      #   with:
+      #     name: my-artifact
+      #     path: screenshot.png
                   
 #      - name: Run tests
 #        run: maestro test .maestro/test.yaml
