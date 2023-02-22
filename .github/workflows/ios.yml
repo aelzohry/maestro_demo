@@ -42,7 +42,7 @@ jobs:
                      -scheme "MaestroDemo" \
                      -destination "platform=iOS Simulator,name=iPhone 14,OS=16.2" \
                      -derivedDataPath "/tmp/app" \
-                     -configuration: "Debug"
+                     -configuration "Debug"
           
       - name: install app in simulator
         run: xcrun simctl install booted "/tmp/app/Build/Products/Debug-iphonesimulator/MaestroDemo.app"
