@@ -1,0 +1,60 @@
+name: iOS starter workflow
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    name: Build and Test default scheme using any available iPhone simulator
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        
+      - uses: actions/setup-java@v2
+        with:
+          distribution: adopt
+          java-version: 18
+          
+      - name: Install maestro
+        run: curl -Ls "https://get.maestro.mobile.dev" | bash
+        
+      - name: Export path
+        run: echo "$PATH":"$HOME/.maestro/bin" >> $GITHUB_PATH
+        
+      - name: Install idb
+        run: |
+          brew tap facebook/fb
+          brew install facebook/fb/idb-companion
+          
+      - uses: futureware-tech/simulator-action@v2
+        with:
+          model: 'iPhone 14'
+          os_version: '16.2'
+        
+      - name: Build app
+        run: |
+          xcodebuild -project "MaestroDemo.xcodeproj" \
+                     -scheme "MaestroDemo" \
+                     -destination "platform=iOS Simulator,name=iPhone 14,OS=16.2" \
+                     -derivedDataPath "/tmp/app" \
+                     -configuration "Debug"
+          
+      - name: install app in simulator
+        run: xcrun simctl install booted "/tmp/app/Build/Products/Debug-iphonesimulator/MaestroDemo.app"
+        
+#      - name: launch app
+#        run: xcrun simctl launch booted com.aelzohry.MaestroDemo
+                  
+#      - name: Run tests
+#        run: maestro test .maestro/test.yaml
+
+#      - name: Run maestro hierarchy
+#        run: maestro hierarchy
+
+      - name: Run settings test
+        run: maestro test .maestro/settings.yaml
