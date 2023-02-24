@@ -72,6 +72,6 @@ jobs:
       #  run: maestro test .maestro/settings.yaml
 
       - name: Test idb connection
-        run: |
-          idb launch com.apple.Preferences
-          idb ui describe-all
+        run: idb list-targets
+#          idb launch com.apple.Preferences
+#          idb ui describe-all
