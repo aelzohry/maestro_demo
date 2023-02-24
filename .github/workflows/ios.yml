@@ -67,5 +67,10 @@ jobs:
 #      - name: Run maestro hierarchy
 #        run: maestro hierarchy
 
-      - name: Run settings test
-        run: maestro test .maestro/settings.yaml
+      #- name: Run settings test
+      #  run: maestro test .maestro/settings.yaml
+
+      - name: Test idb connection
+        run: |
+          idb launch com.apple.Preferences
+          idb ui describe-all
