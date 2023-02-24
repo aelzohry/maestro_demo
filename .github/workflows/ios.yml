@@ -33,6 +33,7 @@ jobs:
         run: |
           brew tap facebook/fb
           brew install facebook/fb/idb-companion
+          pip3 install idb-companion
           
       - uses: futureware-tech/simulator-action@v2
         with:
