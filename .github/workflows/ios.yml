@@ -65,11 +65,11 @@ jobs:
       - name: install app in simulator
         run: xcrun simctl install booted "/tmp/app/Build/Products/Debug-iphonesimulator/MaestroDemo.app"
 
-      # - name: Run app tests
-      #   run: maestro test .maestro/test.yaml
+      - name: Run app tests
+        run: maestro record .maestro/test.yaml
 
-      - name: Run settings test
-        run: maestro test .maestro/settings.yaml
+      # - name: Run settings test
+      #   run: maestro test .maestro/settings.yaml
 
       - uses: OrbitalOwen/desktop-screenshot-action@0.1
         if: always()
