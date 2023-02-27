@@ -47,11 +47,14 @@ jobs:
                     -derivedDataPath "/tmp/app" \
                     -configuration "Debug"
 
+      - name: Check firewall
+        run: /usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate --getblockall --getallowsigned --getstealthmode
+
       - name: Open simulator
         run: open /Applications/Xcode_14.2.app/Contents/Developer/Applications/Simulator.app
 
-      - name: Open Network pane in Prefereneces
-        run: open /System/Library/PreferencePanes/Network.prefPane/
+      # - name: Open Network pane in Prefereneces
+      #   run: open /System/Library/PreferencePanes/Network.prefPane/
 
       - name: install app in simulator
         run: xcrun simctl install booted "/tmp/app/Build/Products/Debug-iphonesimulator/MaestroDemo.app"
