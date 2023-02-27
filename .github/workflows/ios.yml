@@ -53,7 +53,6 @@ jobs:
         with:
           model: 'iPhone 14'
           os_version: '16.2'
-          script: maestro record .maestro/settings.yaml
 
       # - name: Build app
       #   run: |
@@ -78,8 +77,8 @@ jobs:
       # - name: Run app tests
       #   run: maestro record .maestro/test.yaml
 
-      # - name: Run settings test
-      #   run: maestro record .maestro/settings.yaml
+      - name: Run settings test
+        run: maestro record .maestro/settings.yaml
 
       # - uses: OrbitalOwen/desktop-screenshot-action@0.1
       #   if: always()
