@@ -15,10 +15,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - uses: actions/setup-java@v2
-        with:
-          distribution: adopt
-          java-version: 11
+      # - uses: actions/setup-java@v2
+      #   with:
+      #     distribution: adopt
+      #     java-version: 11
+
+      - name: Xcode select
+        run: |
+          xcode-select -p
+          xcode-select --switch /Applications/Xcode_14.2.app
 
       - name: Install maestro
         run: |
