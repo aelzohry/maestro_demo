@@ -8,73 +8,81 @@ on:
 
 jobs:
   build:
-    name: Build and Test default scheme using any available iPhone simulator
+    name: Build app and run maestro test using iPhone 14 Simulator
     runs-on: macos-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      # - name: Checkout
+      #   uses: actions/checkout@v3
 
       # - uses: actions/setup-java@v2
       #   with:
       #     distribution: adopt
       #     java-version: 11
 
-      - name: Xcode select
+      # - name: Xcode select
+      #   run: |
+      #     sudo xcode-select -p
+      #     sudo xcode-select --switch /Applications/Xcode_14.2.app
+
+      # - name: Install maesttro via brew
+      #   run: |
+      #     brew tap mobile-dev-inc/tap
+      #     brew install maestro
+
+      - name: Install maestro via curl
         run: |
-          sudo xcode-select -p
-          sudo xcode-select --switch /Applications/Xcode_14.2.app
+          export MAESTRO_VERSION=1.21.0; curl -Ls "https://get.maestro.mobile.dev" | bash
+          maestro -v
 
-      - name: Install maestro
-        # run: |
-        #   brew tap mobile-dev-inc/tap
-        #   brew install maestro
-        run: export MAESTRO_VERSION=1.21.0; curl -Ls "https://get.maestro.mobile.dev" | bash
-
-      #- name: Export path
-      #  run: echo "$PATH":"$HOME/.maestro/bin" >> $GITHUB_PATH
+      - name: Export path
+        run: echo "$PATH":"$HOME/.maestro/bin" >> $GITHUB_PATH
 
       - name: Install idb
         run: |
           brew tap facebook/fb
           brew install facebook/fb/idb-companion
-          pip3 install fb-idb
 
-      - uses: futureware-tech/simulator-action@v2
+      # - name: Install idb client
+      #   run: pip3 install fb-idb
+
+      - name: run tests
+        uses: futureware-tech/simulator-action@v2
         with:
           model: 'iPhone 14'
           os_version: '16.2'
+          script: maestro record .maestro/settings.yaml
 
-      - name: Build app
-        run: |
-          xcodebuild -project "MaestroDemo.xcodeproj" \
-                    -scheme "MaestroDemo" \
-                    -destination "platform=iOS Simulator,name=iPhone 14,OS=16.2" \
-                    -derivedDataPath "/tmp/app" \
-                    -configuration "Debug"
+      # - name: Build app
+      #   run: |
+      #     xcodebuild -project "MaestroDemo.xcodeproj" \
+      #               -scheme "MaestroDemo" \
+      #               -destination "platform=iOS Simulator,name=iPhone 14,OS=16.2" \
+      #               -derivedDataPath "/tmp/app" \
+      #               -configuration "Debug"
 
-      - name: Check firewall
-        run: /usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate --getblockall --getallowsigned --getstealthmode
+      # - name: Check firewall
+      #   run: /usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate --getblockall --getallowsigned --getstealthmode
 
-      - name: Open simulator
-        run: open /Applications/Xcode_14.2.app/Contents/Developer/Applications/Simulator.app
+      # - name: Open simulator
+      #   run: open /Applications/Xcode_14.2.app/Contents/Developer/Applications/Simulator.app
 
       # - name: Open Network pane in Prefereneces
       #   run: open /System/Library/PreferencePanes/Network.prefPane/
 
-      - name: install app in simulator
-        run: xcrun simctl install booted "/tmp/app/Build/Products/Debug-iphonesimulator/MaestroDemo.app"
+      # - name: install app in simulator
+      #   run: xcrun simctl install booted "/tmp/app/Build/Products/Debug-iphonesimulator/MaestroDemo.app"
 
-      - name: Run app tests
-        run: maestro record .maestro/test.yaml
+      # - name: Run app tests
+      #   run: maestro record .maestro/test.yaml
 
       # - name: Run settings test
-      #   run: maestro test .maestro/settings.yaml
+      #   run: maestro record .maestro/settings.yaml
 
-      - uses: OrbitalOwen/desktop-screenshot-action@0.1
-        if: always()
-        with:
-          file-name: 'desktop.jpg'
+      # - uses: OrbitalOwen/desktop-screenshot-action@0.1
+      #   if: always()
+      #   with:
+      #     file-name: 'desktop.jpg'
 
       # - name: launch app
       #   if: always()
