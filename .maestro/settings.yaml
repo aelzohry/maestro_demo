@@ -1,3 +1,4 @@
 appId: com.apple.Preferences
 ---
-- assertVisible: "Settings"
+- launchApp
+- assertVisible: 'Settings'
