@@ -50,11 +50,17 @@ jobs:
       - name: Open simulator
         run: open /Applications/Xcode_14.2.app/Contents/Developer/Applications/Simulator.app
 
+      - name: Open Network pane in Prefereneces
+        run: open /System/Library/PreferencePanes/Network.prefPane/
+
       - name: install app in simulator
         run: xcrun simctl install booted "/tmp/app/Build/Products/Debug-iphonesimulator/MaestroDemo.app"
 
-      - name: Run tests
-        run: maestro test .maestro/test.yaml
+      # - name: Run app tests
+      #   run: maestro test .maestro/test.yaml
+
+      - name: Run settings test
+        run: maestro test .maestro/settings.yaml
 
       - uses: OrbitalOwen/desktop-screenshot-action@0.1
         if: always()
@@ -76,9 +82,6 @@ jobs:
       #     path: screenshot.png
 #      - name: Run maestro hierarchy
 #        run: maestro hierarchy
-
-#- name: Run settings test
-#  run: maestro test .maestro/settings.yaml
 
 # - name: Test idb connection
 #   run: idb list-targets
