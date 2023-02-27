@@ -15,10 +15,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      #      - uses: actions/setup-java@v2
-      #        with:
-      #          distribution: adopt
-      #          java-version: 11
+      - uses: actions/setup-java@v2
+        with:
+          distribution: adopt
+          java-version: 11
+
       - name: Install maestro
         run: |
           brew tap mobile-dev-inc/tap
