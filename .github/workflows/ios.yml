@@ -24,7 +24,6 @@ jobs:
         run: |
           sudo xcode-select -p
           sudo xcode-select --switch /Applications/Xcode_14.2.app
-          sudo xcode-select --install
 
       - name: Install maestro
         run: |
