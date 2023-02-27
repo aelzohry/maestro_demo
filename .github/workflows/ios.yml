@@ -2,9 +2,9 @@ name: iOS starter workflow
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ['main']
   pull_request:
-    branches: [ "main" ]
+    branches: ['main']
 
 jobs:
   build:
@@ -14,32 +14,31 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        
-#      - uses: actions/setup-java@v2
-#        with:
-#          distribution: adopt
-#          java-version: 11
-          
+
+      #      - uses: actions/setup-java@v2
+      #        with:
+      #          distribution: adopt
+      #          java-version: 11
       - name: Install maestro
         run: |
           brew tap mobile-dev-inc/tap
           brew install maestro
         # run: curl -Ls "https://get.maestro.mobile.dev" | bash
-        
+
       #- name: Export path
       #  run: echo "$PATH":"$HOME/.maestro/bin" >> $GITHUB_PATH
-        
+
       - name: Install idb
         run: |
           brew tap facebook/fb
           brew install facebook/fb/idb-companion
           pip3 install fb-idb
-          
+
       - uses: futureware-tech/simulator-action@v2
         with:
           model: 'iPhone 14'
           os_version: '16.2'
-        
+
       - name: Build app
         run: |
           xcodebuild -project "MaestroDemo.xcodeproj" \
@@ -47,34 +46,38 @@ jobs:
                     -destination "platform=iOS Simulator,name=iPhone 14,OS=16.2" \
                     -derivedDataPath "/tmp/app" \
                     -configuration "Debug"
-          
+
       - name: install app in simulator
         run: xcrun simctl install booted "/tmp/app/Build/Products/Debug-iphonesimulator/MaestroDemo.app"
-                  
+
       - name: Run tests
         run: maestro test .maestro/test.yaml
 
-      - name: launch app
-        if: always()
-        run: xcrun simctl launch booted com.aelzohry.MaestroDemo
-        
-      - name: take screenshot
-        if: always()
-        run: xcrun simctl io booted screenshot screenshot.png
-        
-      - uses: actions/upload-artifact@v3
+      - uses: OrbitalOwen/desktop-screenshot-action@0.1
         if: always()
         with:
-          name: my-artifact
-          path: screenshot.png
+          file-name: 'desktop.jpg'
 
+      # - name: launch app
+      #   if: always()
+      #   run: xcrun simctl launch booted com.aelzohry.MaestroDemo
+
+      # - name: take screenshot
+      #   if: always()
+      #   run: xcrun simctl io booted screenshot screenshot.png
+
+      # - uses: actions/upload-artifact@v3
+      #   if: always()
+      #   with:
+      #     name: my-artifact
+      #     path: screenshot.png
 #      - name: Run maestro hierarchy
 #        run: maestro hierarchy
 
-      #- name: Run settings test
-      #  run: maestro test .maestro/settings.yaml
+#- name: Run settings test
+#  run: maestro test .maestro/settings.yaml
 
-      # - name: Test idb connection
-      #   run: idb list-targets
+# - name: Test idb connection
+#   run: idb list-targets
 #          idb launch com.apple.Preferences
 #          idb ui describe-all
