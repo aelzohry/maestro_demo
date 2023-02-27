@@ -26,10 +26,10 @@ jobs:
           sudo xcode-select --switch /Applications/Xcode_14.2.app
 
       - name: Install maestro
-        run: |
-          brew tap mobile-dev-inc/tap
-          brew install maestro
-        # run: curl -Ls "https://get.maestro.mobile.dev" | bash
+        # run: |
+        #   brew tap mobile-dev-inc/tap
+        #   brew install maestro
+        run: export MAESTRO_VERSION=1.21.0; curl -Ls "https://get.maestro.mobile.dev" | bash
 
       #- name: Export path
       #  run: echo "$PATH":"$HOME/.maestro/bin" >> $GITHUB_PATH
