@@ -47,11 +47,10 @@ jobs:
       # - name: Install idb client
       #   run: pip3 install fb-idb
 
-      - name: run tests
-        uses: futureware-tech/simulator-action@v2
+      - uses: futureware-tech/simulator-action@v2
         with:
-          model: 'iPhone 14'
-          os_version: '16.2'
+          model: 'iPhone 14 Pro'
+          os_version: '16.1'
 
       # - name: Build app
       #   run: |
