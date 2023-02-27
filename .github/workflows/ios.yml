@@ -20,10 +20,11 @@ jobs:
       #     distribution: adopt
       #     java-version: 11
 
-      # - name: Xcode select
-      #   run: |
-      #     sudo xcode-select -p
-      #     sudo xcode-select --switch /Applications/Xcode_14.2.app
+      - name: Xcode select
+        run: |
+          sudo xcode-select -p
+          sudo xcode-select --switch /Applications/Xcode_14.1.app
+          sudo xcode-select -p
 
       # - name: Install maesttro via brew
       #   run: |
@@ -46,6 +47,9 @@ jobs:
 
       # - name: Install idb client
       #   run: pip3 install fb-idb
+
+      - name: List simulators
+        run: xcrun simctl list devices
 
       - uses: futureware-tech/simulator-action@v2
         with:
