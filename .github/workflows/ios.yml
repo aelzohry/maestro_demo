@@ -25,10 +25,10 @@ jobs:
           sudo xcode-select -p
           sudo xcode-select --switch /Applications/Xcode_14.2.app
 
-      # - name: Check Ports 22087 and 9080
-      #   run: |
-      #     lsof -i tcp:22087
-      #     lsof -i tcp:9080
+      - name: Check Ports 22087 and 9080
+        run: |
+          lsof -ti tcp:22087
+          lsof -ti tcp:9080
 
       - name: Check All Ports
         run: netstat -an
