@@ -93,6 +93,10 @@ jobs:
       - name: Run settings test
         run: maestro record .maestro/settings.yaml
 
+      - name: Check Ports for LISTEN
+        if: always()
+        run: netstat -an | grep LISTEN
+
       # - uses: OrbitalOwen/desktop-screenshot-action@0.1
       #   if: always()
       #   with:
