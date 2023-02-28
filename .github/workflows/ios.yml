@@ -26,15 +26,15 @@ jobs:
           sudo xcode-select --switch /Applications/Xcode_14.1.app
           sudo xcode-select -p
 
-      - name: Check Ports 22087 and 9080
-        run: |
-          lsof -i tcp:22087
-          lsof -i tcp:9080
+      # - name: Check Ports 22087 and 9080
+      #   run: |
+      #     lsof -i tcp:22087
+      #     lsof -i tcp:9080
 
       - name: Check All Ports
         run: netstat -an
 
-      - name: Check Ports | LISTEN
+      - name: Check Ports for LISTEN
         run: netstat -an | grep LISTEN
 
       # - name: Install maesttro via brew
