@@ -92,9 +92,13 @@ jobs:
       # - name: Run settings test
       #   run: maestro record .maestro/settings.yaml
 
-      - name: Run maestro studio
+      - name: Run maestro hierarchy
         if: always()
-        run: maestro studio
+        run: maestro hierarchy
+
+      # - name: Run maestro studio
+      #   if: always()
+      #   run: maestro studio
 
       - name: Check Ports for LISTEN
         if: always()
