@@ -23,8 +23,7 @@ jobs:
       - name: Xcode select
         run: |
           sudo xcode-select -p
-          sudo xcode-select --switch /Applications/Xcode_14.1.app
-          sudo xcode-select -p
+          sudo xcode-select --switch /Applications/Xcode_14.2.app
 
       # - name: Check Ports 22087 and 9080
       #   run: |
@@ -64,8 +63,8 @@ jobs:
 
       - uses: futureware-tech/simulator-action@v2
         with:
-          model: 'iPhone 14 Pro'
-          os_version: '16.1'
+          model: 'iPhone 14'
+          os_version: '16.2'
 
       - name: Build app
         run: |
