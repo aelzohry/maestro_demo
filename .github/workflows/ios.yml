@@ -27,8 +27,8 @@ jobs:
 
       - name: Check Ports 22087 and 9080
         run: |
-          lsof -ti tcp:22087
-          lsof -ti tcp:9080
+          sudo lsof -i tcp:22087
+          sudo lsof -i tcp:9080
 
       - name: Check All Ports
         run: netstat -an
