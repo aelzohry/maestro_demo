@@ -86,6 +86,9 @@ jobs:
       - name: install app in simulator
         run: xcrun simctl install booted "/tmp/app/Build/Products/Debug-iphonesimulator/MaestroDemo.app"
 
+      - name: launch app
+        run: xcrun simctl launch booted com.aelzohry.MaestroDemo
+
       - name: Run app tests
         run: maestro record .maestro/test.yaml
 
@@ -108,10 +111,6 @@ jobs:
       #   if: always()
       #   with:
       #     file-name: 'desktop.jpg'
-
-      # - name: launch app
-      #   if: always()
-      #   run: xcrun simctl launch booted com.aelzohry.MaestroDemo
 
       # - name: take screenshot
       #   if: always()
