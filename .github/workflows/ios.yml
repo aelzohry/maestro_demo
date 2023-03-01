@@ -7,15 +7,26 @@ on:
     branches: ['main']
 
 jobs:
-  android_maestro:
+  ios_maestro:
     name: Build app and run maestro test using iPhone 14 Simulator
     runs-on: macos-latest
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
       # - uses: actions/setup-java@v2
       #   with:
       #     distribution: adopt
       #     java-version: 11
+
+      - name: Kill-server adb
+        run: adb kill-server
+
+      - name: Xcode select
+        run: |
+          sudo xcode-select -p
+          sudo xcode-select --switch /Applications/Xcode_14.2.app
 
       # - name: Check Ports 22087 and 9080
       #   run: |
@@ -28,6 +39,11 @@ jobs:
       - name: Check Ports for LISTEN
         run: netstat -an | grep LISTEN
 
+      # - name: Install maesttro via brew
+      #   run: |
+      #     brew tap mobile-dev-inc/tap
+      #     brew install maestro
+
       - name: Install maestro via curl
         run: export MAESTRO_VERSION=1.23.0; curl -Ls "https://get.maestro.mobile.dev" | bash
 
@@ -37,21 +53,81 @@ jobs:
       - name: Check maestro version
         run: maestro -v
 
-      - name: Restart adb
+      - name: Install idb
         run: |
-          adb kill-server
-          adb start-server
+          brew tap facebook/fb
+          brew install facebook/fb/idb-companion
 
-      - name: run tests
-        uses: reactivecircus/android-emulator-runner@v2
+      # - name: Install idb client
+      #   run: pip3 install fb-idb
+
+      - name: List simulators
+        run: xcrun simctl list devices
+
+      - uses: futureware-tech/simulator-action@v2
         with:
-          api-level: 29
-          script: |
-            echo "Generated AVD"
-            $ANDROID_SDK_ROOT/platform-tools/adb devices
-            maestro hierarchy
-            1
+          model: 'iPhone 14'
+          os_version: '16.2'
+
+      - name: Build app
+        run: |
+          xcodebuild -project "MaestroDemo.xcodeproj" \
+                    -scheme "MaestroDemo" \
+                    -destination "platform=iOS Simulator,name=iPhone 14,OS=16.2" \
+                    -derivedDataPath "/tmp/app" \
+                    -configuration "Debug"
+
+      # - name: Check firewall
+      #   run: /usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate --getblockall --getallowsigned --getstealthmode
+
+      - name: Open simulator
+        run: open /Applications/Xcode_14.2.app/Contents/Developer/Applications/Simulator.app
+
+      # - name: Open Network pane in Prefereneces
+      #   run: open /System/Library/PreferencePanes/Network.prefPane/
+
+      - name: install app in simulator
+        run: xcrun simctl install booted "/tmp/app/Build/Products/Debug-iphonesimulator/MaestroDemo.app"
+
+      - name: launch app
+        run: xcrun simctl launch booted com.aelzohry.MaestroDemo
+
+      - name: Run app tests
+        run: maestro record .maestro/test.yaml
+
+      # - name: Run settings test
+      #   run: maestro record .maestro/settings.yaml
+
+      - name: Run maestro hierarchy
+        if: always()
+        run: maestro hierarchy
+
+      # - name: Run maestro studio
+      #   if: always()
+      #   run: maestro studio
 
       - name: Check Ports for LISTEN
         if: always()
         run: netstat -an | grep LISTEN
+
+      # - uses: OrbitalOwen/desktop-screenshot-action@0.1
+      #   if: always()
+      #   with:
+      #     file-name: 'desktop.jpg'
+
+      # - name: take screenshot
+      #   if: always()
+      #   run: xcrun simctl io booted screenshot screenshot.png
+
+      # - uses: actions/upload-artifact@v3
+      #   if: always()
+      #   with:
+      #     name: my-artifact
+      #     path: screenshot.png
+#      - name: Run maestro hierarchy
+#        run: maestro hierarchy
+
+# - name: Test idb connection
+#   run: idb list-targets
+#          idb launch com.apple.Preferences
+#          idb ui describe-all
