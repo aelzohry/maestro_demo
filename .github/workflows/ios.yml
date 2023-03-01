@@ -129,6 +129,13 @@ jobs:
       #     name: my-artifact
       #     path: screenshot.png
 
+      - name: Upload logs
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: logs-artifact
+          path: ~/Library/Logs/maestro/
+
       # - name: Run maestro hierarchy
       #   run: maestro hierarchy
 
