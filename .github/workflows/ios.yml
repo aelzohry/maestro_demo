@@ -42,20 +42,15 @@ jobs:
           adb kill-server
           adb start-server
 
-      - uses: reactivecircus/android-emulator-runner@v2
+      - name: run tests
+        uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
-          script: echo "Generated AVD"
-
-      # - name: Run settings test
-      #   run: maestro record .maestro/settings.yaml
-
-      - name: Run maestro hierarchy
-        run: maestro hierarchy
-
-      # - name: Run maestro studio
-      #   if: always()
-      #   run: maestro studio
+          script: |
+            echo "Generated AVD"
+            $ANDROID_SDK_ROOT/platform-tools/adb devices
+            maestro hierarchy
+            1
 
       - name: Check Ports for LISTEN
         if: always()
