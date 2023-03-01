@@ -64,10 +64,18 @@ jobs:
       - name: List simulators
         run: xcrun simctl list devices
 
-      - uses: futureware-tech/simulator-action@v2
-        with:
-          model: 'iPhone 14'
-          os_version: '16.2'
+      - name: Run simulator
+        run: |
+          xcrun simctl erase 5DD249BC-7C55-4BCD-BC94-03B668FA93C6
+          xcrun simctl boot 5DD249BC-7C55-4BCD-BC94-03B668FA93C6
+
+      - name: Open simulator
+        run: open /Applications/Xcode_14.2.app/Contents/Developer/Applications/Simulator.app
+
+      # - uses: futureware-tech/simulator-action@v2
+      #   with:
+      #     model: 'iPhone 14'
+      #     os_version: '16.2'
 
       - name: Build app
         run: |
@@ -80,9 +88,6 @@ jobs:
       # - name: Check firewall
       #   run: /usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate --getblockall --getallowsigned --getstealthmode
 
-      - name: Open simulator
-        run: open /Applications/Xcode_14.2.app/Contents/Developer/Applications/Simulator.app
-
       # - name: Open Network pane in Prefereneces
       #   run: open /System/Library/PreferencePanes/Network.prefPane/
 
@@ -93,7 +98,7 @@ jobs:
         run: xcrun simctl launch booted com.aelzohry.MaestroDemo
 
       - name: Run app tests
-        run: maestro record .maestro/test.yaml
+        run: maestro test .maestro/test.yaml
 
       # - name: Run settings test
       #   run: maestro record .maestro/settings.yaml
