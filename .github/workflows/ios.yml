@@ -7,7 +7,57 @@ on:
     branches: ['main']
 
 jobs:
-  build:
+  android_maestro:
+    name: Build app and run maestro test using iPhone 14 Simulator
+    runs-on: macos-latest
+
+    steps:
+      # - uses: actions/setup-java@v2
+      #   with:
+      #     distribution: adopt
+      #     java-version: 11
+
+      # - name: Check Ports 22087 and 9080
+      #   run: |
+      #     sudo lsof -i tcp:22087
+      #     sudo lsof -i tcp:9080
+
+      - name: Check All Ports
+        run: netstat -an
+
+      - name: Check Ports for LISTEN
+        run: netstat -an | grep LISTEN
+
+      - name: Install maestro via curl
+        run: export MAESTRO_VERSION=1.23.0; curl -Ls "https://get.maestro.mobile.dev" | bash
+
+      - name: Export path
+        run: echo "$PATH":"$HOME/.maestro/bin" >> $GITHUB_PATH
+
+      - name: Check maestro version
+        run: maestro -v
+
+      - uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 31
+          script: echo "Generated AVD"
+
+      # - name: Run settings test
+      #   run: maestro record .maestro/settings.yaml
+
+      - name: Run maestro hierarchy
+        if: always()
+        run: maestro hierarchy
+
+      # - name: Run maestro studio
+      #   if: always()
+      #   run: maestro studio
+
+      - name: Check Ports for LISTEN
+        if: always()
+        run: netstat -an | grep LISTEN
+
+  ios_maestro:
     name: Build app and run maestro test using iPhone 14 Simulator
     runs-on: macos-latest
 
