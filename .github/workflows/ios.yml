@@ -76,9 +76,12 @@ jobs:
       #     xcrun simctl erase 5DD249BC-7C55-4BCD-BC94-03B668FA93C6
       #     xcrun simctl boot 5DD249BC-7C55-4BCD-BC94-03B668FA93C6
 
-      - name: Run simulator
+      - name: Extract simulator uid
         run: |
           echo "SIM_ID=$(xcrun simctl list devices available | grep 'iPhone 14' | grep -E -o -i '([0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12})' | head -1)" >> $GITHUB_ENV
+
+      - name: Bool simulator
+        run: |
           xcrun simctl erase "${{ env.SIM_ID }}"
           xcrun simctl boot "${{ env.SIM_ID }}"
 
