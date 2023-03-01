@@ -20,9 +20,6 @@ jobs:
           distribution: adopt
           java-version: 11
 
-      - name: Kill-server adb
-        run: adb kill-server
-
       - name: Xcode select
         run: |
           sudo xcode-select -p
@@ -38,6 +35,9 @@ jobs:
       #   run: |
       #     sudo lsof -i tcp:22087
       #     sudo lsof -i tcp:9080
+
+      - name: Check hosts
+        run: cat /etc/hosts
 
       - name: Check All Ports
         run: netstat -an
