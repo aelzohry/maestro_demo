@@ -82,7 +82,7 @@ jobs:
           os_version: '15.5'
 
       - name: Open simulator
-        run: open /Applications/Xcode_14.2.app/Contents/Developer/Applications/Simulator.app
+        run: open /Applications/Xcode_13.4.1.app/Contents/Developer/Applications/Simulator.app
 
       # - name: Build app
       #   run: |
