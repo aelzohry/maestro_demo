@@ -44,14 +44,13 @@ jobs:
 
       - uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 31
+          api-level: 29
           script: echo "Generated AVD"
 
       # - name: Run settings test
       #   run: maestro record .maestro/settings.yaml
 
       - name: Run maestro hierarchy
-        if: always()
         run: maestro hierarchy
 
       # - name: Run maestro studio
