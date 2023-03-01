@@ -59,10 +59,10 @@ jobs:
       - name: Check maestro version
         run: maestro -v
 
-      # - name: Install idb
-      #   run: |
-      #     brew tap facebook/fb
-      #     brew install facebook/fb/idb-companion
+      - name: Install idb
+        run: |
+          brew tap facebook/fb
+          brew install facebook/fb/idb-companion
 
       # - name: Install idb client
       #   run: pip3 install fb-idb
