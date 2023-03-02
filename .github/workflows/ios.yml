@@ -35,14 +35,14 @@ jobs:
       #     sudo lsof -i tcp:22087
       #     sudo lsof -i tcp:9080
 
-      - name: Check hosts
-        run: cat /etc/hosts
+      # - name: Check hosts
+      #   run: cat /etc/hosts
 
-      - name: Check All Ports
-        run: netstat -an
+      # - name: Check All Ports
+      #   run: netstat -an
 
-      - name: Check Ports for LISTEN
-        run: netstat -an | grep LISTEN
+      # - name: Check Ports for LISTEN
+      #   run: netstat -an | grep LISTEN
 
       # - name: Install maesttro via brew
       #   run: |
@@ -66,17 +66,17 @@ jobs:
       # - name: Install idb client
       #   run: pip3 install fb-idb
 
-      - name: List simulators
-        run: xcrun simctl list devices
+      # - name: List simulators
+      #   run: xcrun simctl list devices
 
       # - name: Run simulator
       #   run: |
       #     xcrun simctl erase 5DD249BC-7C55-4BCD-BC94-03B668FA93C6
       #     xcrun simctl boot 5DD249BC-7C55-4BCD-BC94-03B668FA93C6
 
-      - name: Extract simulator uid
-        run: |
-          echo "SIM_ID=$(xcrun simctl list devices available | grep 'iPhone 14' | grep -E -o -i '([0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12})' | head -1)" >> $GITHUB_ENV
+      # - name: Extract simulator uid
+      #   run: |
+      #     echo "SIM_ID=$(xcrun simctl list devices available | grep 'iPhone 14' | grep -E -o -i '([0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12})' | head -1)" >> $GITHUB_ENV
 
       - name: Get simulator id
         run: echo "${{ env.SIM_ID }}"
@@ -89,20 +89,20 @@ jobs:
                     -derivedDataPath "/tmp/app" \
                     -configuration "Debug"
 
-      # - name: install app in simulator
-      #   run: xcrun simctl install booted "/tmp/app/Build/Products/Debug-iphonesimulator/MaestroDemo.app"
+      # - name: Boot simulator & run tests
+      #   run: |
+      #     xcrun simctl erase "${{ env.SIM_ID }}"
+      #     xcrun simctl boot "${{ env.SIM_ID }}"
+      #     xcrun simctl install booted "/tmp/app/Build/Products/Debug-iphonesimulator/MaestroDemo.app"
+      #     maestro test .maestro/test.yaml
 
-      - name: Boot simulator & run tests
-        run: |
-          xcrun simctl erase "${{ env.SIM_ID }}"
-          xcrun simctl boot "${{ env.SIM_ID }}"
-          xcrun simctl install booted "/tmp/app/Build/Products/Debug-iphonesimulator/MaestroDemo.app"
-          maestro test .maestro/test.yaml
+      - uses: futureware-tech/simulator-action@v2
+        with:
+          model: 'iPhone 14'
+          os_version: '16.2'
 
-      # - uses: futureware-tech/simulator-action@v2
-      #   with:
-      #     model: 'iPhone 13'
-      #     os_version: '15.5'
+      - name: install app in simulator
+        run: xcrun simctl install booted "/tmp/app/Build/Products/Debug-iphonesimulator/MaestroDemo.app"
 
       # - name: Open simulator
       #   run: open /Applications/Xcode_14.0.1.app/Contents/Developer/Applications/Simulator.app
@@ -110,8 +110,8 @@ jobs:
       # - name: launch app
       #   run: xcrun simctl launch booted com.aelzohry.MaestroDemo
 
-      # - name: Run app tests
-      #   run: maestro test .maestro/test.yaml
+      - name: Run app tests
+        run: maestro test .maestro/test.yaml
 
       # - name: Run settings test
       #   run: maestro record .maestro/settings.yaml
