@@ -12,8 +12,8 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      # - name: Checkout
+      #   uses: actions/checkout@v3
 
       - uses: actions/setup-java@v3
         with:
@@ -24,7 +24,6 @@ jobs:
         run: |
           sudo xcode-select --switch /Applications/Xcode_14.0.1.app
           sudo xcode-select -p
-
       # - name: Check firewall
       #   run: /usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate --getblockall --getallowsigned --getstealthmode
 
@@ -36,25 +35,25 @@ jobs:
       #     sudo lsof -i tcp:22087
       #     sudo lsof -i tcp:9080
 
-      # - name: Check hosts
-      #   run: cat /etc/hosts
+      - name: Check hosts
+        run: cat /etc/hosts
 
-      # - name: Check All Ports
-      #   run: netstat -an
+      - name: Check All Ports
+        run: netstat -an
 
-      # - name: Check Ports for LISTEN
-      #   run: netstat -an | grep LISTEN
+      - name: Check Ports for LISTEN
+        run: netstat -an | grep LISTEN
 
-      - name: Install maesttro via brew
-        run: |
-          brew tap mobile-dev-inc/tap
-          brew install maestro
+      # - name: Install maesttro via brew
+      #   run: |
+      #     brew tap mobile-dev-inc/tap
+      #     brew install maestro
 
-      # - name: Install maestro via curl
-      #   run: export MAESTRO_VERSION=1.23.0; curl -Ls "https://get.maestro.mobile.dev" | bash
+      - name: Install maestro via curl
+        run: export MAESTRO_VERSION=1.23.0; curl -Ls "https://get.maestro.mobile.dev" | bash
 
-      # - name: Export path
-      #   run: echo "$PATH":"$HOME/.maestro/bin" >> $GITHUB_PATH
+      - name: Export path
+        run: echo "$PATH":"$HOME/.maestro/bin" >> $GITHUB_PATH
 
       - name: Check maestro version
         run: maestro -v
@@ -63,12 +62,11 @@ jobs:
         run: |
           brew tap facebook/fb
           brew install facebook/fb/idb-companion
-
       # - name: Install idb client
       #   run: pip3 install fb-idb
 
-      # - name: List simulators
-      #   run: xcrun simctl list devices
+      - name: List simulators
+        run: xcrun simctl list devices
 
       # - name: Run simulator
       #   run: |
@@ -78,22 +76,21 @@ jobs:
       - name: Extract simulator uid
         run: |
           echo "SIM_ID=$(xcrun simctl list devices available | grep 'iPhone 14' | grep -E -o -i '([0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12})' | head -1)" >> $GITHUB_ENV
-
       - name: Get simulator id
         run: echo "${{ env.SIM_ID }}"
 
-      # - name: Erase & Boot simulator
-      #   run: |
-      #     xcrun simctl erase "${{ env.SIM_ID }}"
-      #     xcrun simctl boot "${{ env.SIM_ID }}"
-
+      - name: Boot simulator & run tests
+        run: |
+          xcrun simctl erase "${{ env.SIM_ID }}"
+          xcrun simctl boot "${{ env.SIM_ID }}"
+          maestro hierarchy
       # - uses: futureware-tech/simulator-action@v2
       #   with:
       #     model: 'iPhone 13'
       #     os_version: '15.5'
 
       # - name: Open simulator
-      #   run: open /Applications/Xcode_14.2.app/Contents/Developer/Applications/Simulator.app
+      #   run: open /Applications/Xcode_14.0.1.app/Contents/Developer/Applications/Simulator.app
 
       # - name: Build app
       #   run: |
@@ -105,13 +102,6 @@ jobs:
 
       # - name: install app in simulator
       #   run: xcrun simctl install booted "/tmp/app/Build/Products/Debug-iphonesimulator/MaestroDemo.app"
-
-      - name: Open simulator & run tests
-        run: |
-          xcrun simctl erase "${{ env.SIM_ID }}"
-          xcrun simctl boot "${{ env.SIM_ID }}"
-          open /Applications/Xcode_14.0.1.app/Contents/Developer/Applications/Simulator.app
-          maestro hierarchy
 
       # - name: launch app
       #   run: xcrun simctl launch booted com.aelzohry.MaestroDemo
@@ -129,9 +119,9 @@ jobs:
       #   if: always()
       #   run: maestro studio
 
-      # - name: Check Ports for LISTEN
-      #   if: always()
-      #   run: netstat -an | grep LISTEN
+      - name: Check Ports for LISTEN
+        if: always()
+        run: netstat -an | grep LISTEN
 
       # - uses: OrbitalOwen/desktop-screenshot-action@0.1
       #   if: always()
