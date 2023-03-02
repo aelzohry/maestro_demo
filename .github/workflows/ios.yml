@@ -83,17 +83,18 @@ jobs:
       - name: Get simulator id
         run: echo "${{ env.SIM_ID }}"
 
-      # - name: Erase simulator
-      #   run: |
-      #     xcrun simctl erase "${{ env.SIM_ID }}"
+      - name: Erase & Boot simulator
+        run: |
+          xcrun simctl erase "${{ env.SIM_ID }}"
+          xcrun simctl boot "${{ env.SIM_ID }}"
 
       # - uses: futureware-tech/simulator-action@v2
       #   with:
       #     model: 'iPhone 13'
       #     os_version: '15.5'
 
-      - name: Open simulator
-        run: open /Applications/Xcode_14.2.app/Contents/Developer/Applications/Simulator.app
+      # - name: Open simulator
+      #   run: open /Applications/Xcode_14.2.app/Contents/Developer/Applications/Simulator.app
 
       - name: Build app
         run: |
@@ -106,9 +107,9 @@ jobs:
       # - name: install app in simulator
       #   run: xcrun simctl install booted "/tmp/app/Build/Products/Debug-iphonesimulator/MaestroDemo.app"
 
-      - name: Boot simulator & install app & run tests
+      - name: Open simulator & install app & run tests
         run: |
-          xcrun simctl boot "${{ env.SIM_ID }}"
+          open /Applications/Xcode_14.2.app/Contents/Developer/Applications/Simulator.app
           xcrun simctl install booted "/tmp/app/Build/Products/Debug-iphonesimulator/MaestroDemo.app"
           maestro test .maestro/test.yaml
 
