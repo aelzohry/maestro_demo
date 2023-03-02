@@ -12,8 +12,8 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      # - name: Checkout
-      #   uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
       - uses: actions/setup-java@v3
         with:
@@ -84,7 +84,8 @@ jobs:
         run: |
           xcrun simctl erase "${{ env.SIM_ID }}"
           xcrun simctl boot "${{ env.SIM_ID }}"
-          maestro hierarchy
+          maestro test .maestro/settings.yaml
+
       # - uses: futureware-tech/simulator-action@v2
       #   with:
       #     model: 'iPhone 13'
