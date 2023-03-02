@@ -23,7 +23,7 @@ jobs:
       - name: Xcode select
         run: |
           sudo xcode-select -p
-          sudo xcode-select --switch /Applications/Xcode_14.0.1.app
+          sudo xcode-select --switch /Applications/Xcode_14.2.app
           sudo xcode-select -p
 
       # - name: Check firewall
@@ -93,14 +93,14 @@ jobs:
       #     model: 'iPhone 13'
       #     os_version: '15.5'
 
-      # - name: Open simulator
-      #   run: open /Applications/Xcode_14.0.1.app/Contents/Developer/Applications/Simulator.app
+      - name: Open simulator
+        run: open /Applications/Xcode_14.2.app/Contents/Developer/Applications/Simulator.app
 
       - name: Build app
         run: |
           xcodebuild -project "MaestroDemo.xcodeproj" \
                     -scheme "MaestroDemo" \
-                    -destination "platform=iOS Simulator,name=iPhone 14,OS=16.0" \
+                    -destination "platform=iOS Simulator,name=iPhone 14,OS=16.2" \
                     -derivedDataPath "/tmp/app" \
                     -configuration "Debug"
 
