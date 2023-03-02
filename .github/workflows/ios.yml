@@ -22,7 +22,7 @@ jobs:
 
       - name: Xcode select
         run: |
-          sudo xcode-select --switch /Applications/Xcode_14.1.app
+          sudo xcode-select --switch /Applications/Xcode_14.2.app
           sudo xcode-select -p
       # - name: Check firewall
       #   run: /usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate --getblockall --getallowsigned --getstealthmode
@@ -62,6 +62,7 @@ jobs:
         run: |
           brew tap facebook/fb
           brew install facebook/fb/idb-companion
+
       # - name: Install idb client
       #   run: pip3 install fb-idb
 
@@ -80,11 +81,23 @@ jobs:
       - name: Get simulator id
         run: echo "${{ env.SIM_ID }}"
 
+      - name: Build app
+        run: |
+          xcodebuild -project "MaestroDemo.xcodeproj" \
+                    -scheme "MaestroDemo" \
+                    -destination "platform=iOS Simulator,name=iPhone 14" \
+                    -derivedDataPath "/tmp/app" \
+                    -configuration "Debug"
+
+      # - name: install app in simulator
+      #   run: xcrun simctl install booted "/tmp/app/Build/Products/Debug-iphonesimulator/MaestroDemo.app"
+
       - name: Boot simulator & run tests
         run: |
           xcrun simctl erase "${{ env.SIM_ID }}"
           xcrun simctl boot "${{ env.SIM_ID }}"
-          maestro test .maestro/settings.yaml
+          xcrun simctl install booted "/tmp/app/Build/Products/Debug-iphonesimulator/MaestroDemo.app"
+          maestro test .maestro/test.yaml
 
       # - uses: futureware-tech/simulator-action@v2
       #   with:
@@ -93,17 +106,6 @@ jobs:
 
       # - name: Open simulator
       #   run: open /Applications/Xcode_14.0.1.app/Contents/Developer/Applications/Simulator.app
-
-      # - name: Build app
-      #   run: |
-      #     xcodebuild -project "MaestroDemo.xcodeproj" \
-      #               -scheme "MaestroDemo" \
-      #               -destination "platform=iOS Simulator,name=iPhone 14,OS=16.2" \
-      #               -derivedDataPath "/tmp/app" \
-      #               -configuration "Debug"
-
-      # - name: install app in simulator
-      #   run: xcrun simctl install booted "/tmp/app/Build/Products/Debug-iphonesimulator/MaestroDemo.app"
 
       # - name: launch app
       #   run: xcrun simctl launch booted com.aelzohry.MaestroDemo
