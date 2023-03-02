@@ -22,7 +22,7 @@ jobs:
 
       - name: Xcode select
         run: |
-          sudo xcode-select --switch /Applications/Xcode_14.2.app
+          sudo xcode-select --switch /Applications/Xcode_14.0.1.app
           sudo xcode-select -p
 
       # - name: Check firewall
@@ -108,7 +108,7 @@ jobs:
 
       - name: Open simulator & run tests
         run: |
-          open /Applications/Xcode_14.2.app/Contents/Developer/Applications/Simulator.app
+          open /Applications/Xcode_14.0.1.app/Contents/Developer/Applications/Simulator.app
           maestro hierarchy
 
       # - name: launch app
