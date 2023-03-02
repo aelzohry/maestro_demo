@@ -23,7 +23,7 @@ jobs:
       - name: Xcode select
         run: |
           sudo xcode-select -p
-          sudo xcode-select --switch /Applications/Xcode_14.2.app
+          sudo xcode-select --switch /Applications/Xcode_14.1.app
           sudo xcode-select -p
 
       # - name: Check firewall
@@ -68,8 +68,8 @@ jobs:
       # - name: Install idb client
       #   run: pip3 install fb-idb
 
-      - name: List simulators
-        run: xcrun simctl list devices
+      # - name: List simulators
+      #   run: xcrun simctl list devices
 
       # - name: Run simulator
       #   run: |
@@ -129,9 +129,9 @@ jobs:
       #   if: always()
       #   run: maestro studio
 
-      - name: Check Ports for LISTEN
-        if: always()
-        run: netstat -an | grep LISTEN
+      # - name: Check Ports for LISTEN
+      #   if: always()
+      #   run: netstat -an | grep LISTEN
 
       # - uses: OrbitalOwen/desktop-screenshot-action@0.1
       #   if: always()
