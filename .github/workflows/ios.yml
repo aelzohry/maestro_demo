@@ -22,7 +22,6 @@ jobs:
 
       - name: Xcode select
         run: |
-          sudo xcode-select -p
           sudo xcode-select --switch /Applications/Xcode_14.1.app
           sudo xcode-select -p
 
@@ -109,6 +108,7 @@ jobs:
 
       - name: Boot simulator & run tests
         run: |
+          xcrun simctl erase "${{ env.SIM_ID }}"
           xcrun simctl boot "${{ env.SIM_ID }}"
           maestro hierarchy
 
