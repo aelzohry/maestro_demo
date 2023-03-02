@@ -111,7 +111,6 @@ jobs:
         run: |
           xcrun simctl boot "${{ env.SIM_ID }}"
           maestro hierarchy
-          maestro test .maestro/settings.yaml
 
       # - name: launch app
       #   run: xcrun simctl launch booted com.aelzohry.MaestroDemo
