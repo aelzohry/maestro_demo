@@ -100,7 +100,7 @@ jobs:
         run: |
           xcodebuild -project "MaestroDemo.xcodeproj" \
                     -scheme "MaestroDemo" \
-                    -destination "platform=iOS Simulator,id=${{ env.SIM_ID }}" \
+                    -destination "platform=iOS Simulator,id=name=iPhone 14,OS=16.0" \
                     -derivedDataPath "/tmp/app" \
                     -configuration "Debug"
 
