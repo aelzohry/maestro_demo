@@ -83,8 +83,10 @@ jobs:
       - name: Get simulator id
         run: echo "${{ env.SIM_ID }}"
 
-      - name: Erase simulator
-        run: xcrun simctl erase "${{ env.SIM_ID }}"
+      - name: Erase & boot simulator
+        run: |
+          xcrun simctl erase "${{ env.SIM_ID }}"
+          xcrun simctl boot "${{ env.SIM_ID }}"
 
       # - uses: futureware-tech/simulator-action@v2
       #   with:
