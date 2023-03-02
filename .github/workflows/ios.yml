@@ -22,7 +22,7 @@ jobs:
 
       - name: Xcode select
         run: |
-          sudo xcode-select --switch /Applications/Xcode_14.0.1.app
+          sudo xcode-select --switch /Applications/Xcode_14.1.app
           sudo xcode-select -p
       # - name: Check firewall
       #   run: /usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate --getblockall --getallowsigned --getstealthmode
@@ -50,7 +50,7 @@ jobs:
       #     brew install maestro
 
       - name: Install maestro via curl
-        run: export MAESTRO_VERSION=1.23.0; curl -Ls "https://get.maestro.mobile.dev" | bash
+        run: export MAESTRO_VERSION=1.18.3; curl -Ls "https://get.maestro.mobile.dev" | bash
 
       - name: Export path
         run: echo "$PATH":"$HOME/.maestro/bin" >> $GITHUB_PATH
@@ -76,6 +76,7 @@ jobs:
       - name: Extract simulator uid
         run: |
           echo "SIM_ID=$(xcrun simctl list devices available | grep 'iPhone 14' | grep -E -o -i '([0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12})' | head -1)" >> $GITHUB_ENV
+
       - name: Get simulator id
         run: echo "${{ env.SIM_ID }}"
 
