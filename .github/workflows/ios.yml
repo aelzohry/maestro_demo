@@ -82,10 +82,10 @@ jobs:
       - name: Get simulator id
         run: echo "${{ env.SIM_ID }}"
 
-      - name: Erase & Boot simulator
-        run: |
-          xcrun simctl erase "${{ env.SIM_ID }}"
-          xcrun simctl boot "${{ env.SIM_ID }}"
+      # - name: Erase & Boot simulator
+      #   run: |
+      #     xcrun simctl erase "${{ env.SIM_ID }}"
+      #     xcrun simctl boot "${{ env.SIM_ID }}"
 
       # - uses: futureware-tech/simulator-action@v2
       #   with:
@@ -108,6 +108,8 @@ jobs:
 
       - name: Open simulator & run tests
         run: |
+          xcrun simctl erase "${{ env.SIM_ID }}"
+          xcrun simctl boot "${{ env.SIM_ID }}"
           open /Applications/Xcode_14.0.1.app/Contents/Developer/Applications/Simulator.app
           maestro hierarchy
 
