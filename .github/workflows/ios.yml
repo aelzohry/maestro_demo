@@ -50,7 +50,7 @@ jobs:
       #     brew install maestro
 
       - name: Install maestro via curl
-        run: export MAESTRO_VERSION=1.19.5; curl -Ls "https://get.maestro.mobile.dev" | bash
+        run: export MAESTRO_VERSION=1.19.0; curl -Ls "https://get.maestro.mobile.dev" | bash
 
       - name: Export path
         run: echo "$PATH":"$HOME/.maestro/bin" >> $GITHUB_PATH
