@@ -46,16 +46,16 @@ jobs:
       # - name: Check Ports for LISTEN
       #   run: netstat -an | grep LISTEN
 
-      # - name: Install maesttro via brew
-      #   run: |
-      #     brew tap mobile-dev-inc/tap
-      #     brew install maestro
+      - name: Install maesttro via brew
+        run: |
+          brew tap mobile-dev-inc/tap
+          brew install maestro
 
-      - name: Install maestro via curl
-        run: export MAESTRO_VERSION=1.23.0; curl -Ls "https://get.maestro.mobile.dev" | bash
+      # - name: Install maestro via curl
+      #   run: export MAESTRO_VERSION=1.23.0; curl -Ls "https://get.maestro.mobile.dev" | bash
 
-      - name: Export path
-        run: echo "$PATH":"$HOME/.maestro/bin" >> $GITHUB_PATH
+      # - name: Export path
+      #   run: echo "$PATH":"$HOME/.maestro/bin" >> $GITHUB_PATH
 
       - name: Check maestro version
         run: maestro -v
@@ -109,7 +109,6 @@ jobs:
 
       - name: Boot simulator & run tests
         run: |
-          xcrun simctl erase "${{ env.SIM_ID }}"
           xcrun simctl boot "${{ env.SIM_ID }}"
           maestro hierarchy
           maestro test .maestro/settings.yaml
