@@ -86,7 +86,6 @@ jobs:
           xcodebuild -project "MaestroDemo.xcodeproj" \
                     -scheme "MaestroDemo" \
                     -destination "platform=iOS Simulator,name=iPhone 14" \
-                    -derivedDataPath "/tmp/app" \
                     -configuration "Debug"
 
       # - name: Boot simulator & run tests
@@ -102,7 +101,7 @@ jobs:
           os_version: '16.2'
 
       - name: install app in simulator
-        run: xcrun simctl install booted "/tmp/app/Build/Products/Debug-iphonesimulator/MaestroDemo.app"
+        run: xcrun simctl install booted "MaestroDemo.app"
 
       # - name: Open simulator
       #   run: open /Applications/Xcode_14.0.1.app/Contents/Developer/Applications/Simulator.app
