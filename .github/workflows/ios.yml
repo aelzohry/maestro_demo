@@ -78,8 +78,8 @@ jobs:
       #   run: |
       #     echo "SIM_ID=$(xcrun simctl list devices available | grep 'iPhone 14' | grep -E -o -i '([0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12})' | head -1)" >> $GITHUB_ENV
 
-      - name: Get simulator id
-        run: echo "${{ env.SIM_ID }}"
+      # - name: Get simulator id
+      #   run: echo "${{ env.SIM_ID }}"
 
       - name: Build app
         run: |

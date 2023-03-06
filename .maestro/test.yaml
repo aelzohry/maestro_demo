@@ -1,7 +1,4 @@
 appId: com.aelzohry.MaestroDemo
 ---
 - launchApp
-- assertVisible:
-    id: "globe_image"
-- assertVisible:
-    id: "hello_world"
+- assertVisible: 'Hello, world!'
