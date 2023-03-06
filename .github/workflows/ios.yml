@@ -15,10 +15,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      # - uses: actions/setup-java@v3
-      #   with:
-      #     distribution: adopt
-      #     java-version: 11
+      - uses: actions/setup-java@v3
+        with:
+          distribution: adopt
+          java-version: 11
 
       - name: Xcode select
         run: |
@@ -50,7 +50,7 @@ jobs:
       #     brew install maestro
 
       - name: Install maestro via curl
-        run: export MAESTRO_VERSION=1.18.3; curl -Ls "https://get.maestro.mobile.dev" | bash
+        run: export MAESTRO_VERSION=1.18.5; curl -Ls "https://get.maestro.mobile.dev" | bash
 
       - name: Export path
         run: echo "$PATH":"$HOME/.maestro/bin" >> $GITHUB_PATH
