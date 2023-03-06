@@ -1,4 +1,6 @@
 appId: com.aelzohry.MaestroDemo
 ---
 - launchApp
-- assertVisible: 'Hello, world!'
+- scrollUntilVisible:
+    element:
+      text: 'Hello, world!'
