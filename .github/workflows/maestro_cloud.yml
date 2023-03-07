@@ -1,4 +1,4 @@
-name: iOS starter workflow
+name: Maestro cloud
 
 on: workflow_dispatch
 
