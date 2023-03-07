@@ -1,0 +1,37 @@
+name: iOS starter workflow
+
+on: workflow_dispatch
+
+jobs:
+  ios_maestro:
+    name: Build app and run test on maestro cloud
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Xcode select
+        run: |
+          sudo xcode-select --switch /Applications/Xcode_14.2.app
+          sudo xcode-select -p
+
+      - name: Build app
+        run: |
+          xcodebuild -project "MaestroDemo.xcodeproj" \
+                    -scheme "MaestroDemo" \
+                    -destination "platform=iOS Simulator,name=iPhone 14" \
+                    -derivedDataPath "/tmp/app" \
+                    -configuration "Debug"
+
+      - uses: mobile-dev-inc/action-maestro-cloud@v1.2.3
+        with:
+          api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
+          app-file: /tmp/app/Build/Products/Debug-iphonesimulator/MaestroDemo.app
+
+      - name: Upload logs
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: logs-artifact
+          path: ~/Library/Logs/maestro/
