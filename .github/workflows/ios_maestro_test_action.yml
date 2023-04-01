@@ -1,0 +1,29 @@
+name: iOS maestro test action
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ['main']
+
+jobs:
+  ios_maestro:
+    name: Build app and run maestro test using iPhone 14 Simulator
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-java@v3
+        with:
+          distribution: adopt
+          java-version: 11
+
+      - uses: futureware-tech/simulator-action@v2
+        with:
+          model: 'iPhone 14'
+          os_version: '16.2'
+
+      - uses: dniHze/maestro-test-action@v1
+        with:
+          flow: .maestro/settings.yaml
+          report: report.xml
