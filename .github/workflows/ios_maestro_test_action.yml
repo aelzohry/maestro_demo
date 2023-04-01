@@ -27,3 +27,11 @@ jobs:
         with:
           flow: .maestro/settings.yaml
           report: report.xml
+          version: 1.17.0
+
+      - name: Upload logs
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: logs-artifact
+          path: ~/Library/Logs/maestro/
