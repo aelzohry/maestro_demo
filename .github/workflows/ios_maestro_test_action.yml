@@ -27,7 +27,7 @@ jobs:
         with:
           flow: .maestro/settings.yaml
           report: report.xml
-          version: 1.17.0
+          version: 1.26.1
 
       - name: Upload logs
         uses: actions/upload-artifact@v3
