@@ -1,6 +1,10 @@
 appId: com.aelzohry.MaestroDemo
 ---
-- launchApp
+- launchApp:
+    arguments:
+      - 'bool-arg true'
+      - "string-arg 'Ahmed'"
+
 - scrollUntilVisible:
     element:
       text: 'Hello, world!'

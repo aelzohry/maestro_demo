@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     @State var isSheetPresented: Bool = false
+    @AppStorage("bool-arg") var boolArg: Bool = false
+    @AppStorage("string-arg") var stringArg: String = ""
     
     var body: some View {
         VStack(spacing: 12) {
@@ -19,6 +21,9 @@ struct ContentView: View {
             
             Text("Hello, world!")
                 .accessibilityIdentifier("hello_world")
+            
+            Text("Bool arg: \(boolArg.description)")
+            Text("String arg: \(stringArg)")
             
             Button("Info") {
                 isSheetPresented = true
