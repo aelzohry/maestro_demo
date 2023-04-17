@@ -1,0 +1,6 @@
+appId: com.aelzohry.MaestroDemo
+---
+- launchApp
+- tapOn:
+    id: 'info_button'
+- assertNotVisible: 'About'
