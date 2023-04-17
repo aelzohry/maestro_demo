@@ -1,9 +1,6 @@
 name: iOS maestro test action
 
-on:
-  workflow_dispatch:
-  push:
-    branches: ['main']
+on: workflow_dispatch
 
 jobs:
   ios_maestro:
@@ -15,7 +12,7 @@ jobs:
 
       - uses: actions/setup-java@v3
         with:
-          distribution: adopt
+          distribution: temurin
           java-version: 11
 
       - uses: futureware-tech/simulator-action@v2

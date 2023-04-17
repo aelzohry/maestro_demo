@@ -1,11 +1,6 @@
 name: iOS starter workflow
 
-on:
-  workflow_dispatch:
-  push:
-    branches: ['main']
-  pull_request:
-    branches: ['main']
+on: workflow_dispatch
 
 jobs:
   ios_maestro:
@@ -13,13 +8,19 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - name: Install idb
+        run: |
+          brew tap facebook/fb
+          brew install facebook/fb/idb-companion
 
-      - uses: actions/setup-java@v3
+      - name: Setup Java
+        uses: actions/setup-java@v2
         with:
-          distribution: adopt
+          distribution: temurin
           java-version: 11
+
+      - name: Checkout
+        uses: actions/checkout@v2
 
       - name: Xcode select
         run: |
@@ -45,24 +46,24 @@ jobs:
       # - name: Check Ports for LISTEN
       #   run: netstat -an | grep LISTEN
 
-      - name: Install maesttro via brew
+      # - name: Install maesttro via brew
+      #   run: |
+      #     brew tap mobile-dev-inc/tap
+      #     brew install maestro
+
+      # Install maestro via curl
+      - name: Install Maestro
         run: |
-          brew tap mobile-dev-inc/tap
-          brew install maestro
+          curl -Ls "https://get.maestro.mobile.dev" | bash
+          echo "$HOME/.maestro/bin" >> $GITHUB_PATH
+          export PATH="$PATH":"$HOME/.maestro/bin"
+          echo "Maestro version: $(maestro --version)"
 
       # - name: Install maestro via curl
       #   run: export MAESTRO_VERSION=1.18.5; curl -Ls "https://get.maestro.mobile.dev" | bash
 
       # - name: Export path
       #   run: echo "$PATH":"$HOME/.maestro/bin" >> $GITHUB_PATH
-
-      - name: Check maestro version
-        run: maestro -v
-
-      - name: Install idb
-        run: |
-          brew tap facebook/fb
-          brew install facebook/fb/idb-companion
 
       # - name: Install idb client
       #   run: pip3 install fb-idb
@@ -101,9 +102,13 @@ jobs:
         with:
           model: 'iPhone 14'
           os_version: '16.2'
+          shutdown_after_job: false
 
-      - name: install app in simulator
-        run: xcrun simctl install booted "/tmp/app/Build/Products/Debug-iphonesimulator/MaestroDemo.app"
+      - name: Install app & Run e2e tests
+        run: |
+          xcrun simctl install booted "/tmp/app/Build/Products/Debug-iphonesimulator/MaestroDemo.app"
+          maestro test .maestro/test.yaml
+          xcrun simctl shutdown all
 
       # - name: Open simulator
       #   run: open /Applications/Xcode_14.0.1.app/Contents/Developer/Applications/Simulator.app
@@ -111,8 +116,8 @@ jobs:
       # - name: launch app
       #   run: xcrun simctl launch booted com.aelzohry.MaestroDemo
 
-      - name: Run app tests
-        run: maestro test .maestro/test.yaml
+      # - name: Run app tests
+      #   run: maestro test .maestro/test.yaml
 
       # - name: Run settings test
       #   run: maestro record .maestro/settings.yaml
@@ -145,7 +150,7 @@ jobs:
 
       - name: Upload logs
         uses: actions/upload-artifact@v3
-        if: always()
+        if: failure()
         with:
           name: logs-artifact
           path: ~/Library/Logs/maestro/
