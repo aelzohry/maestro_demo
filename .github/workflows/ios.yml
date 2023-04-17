@@ -20,8 +20,8 @@ jobs:
           distribution: temurin
           java-version: 11
 
-      - name: Checkout
-        uses: actions/checkout@v3
+      # - name: Checkout
+      #   uses: actions/checkout@v3
 
       - name: Xcode select
         run: |
@@ -53,14 +53,6 @@ jobs:
       #     xcrun simctl erase 5DD249BC-7C55-4BCD-BC94-03B668FA93C6
       #     xcrun simctl boot 5DD249BC-7C55-4BCD-BC94-03B668FA93C6
 
-      - name: Build app
-        run: |
-          xcodebuild -project "MaestroDemo.xcodeproj" \
-                    -scheme "MaestroDemo" \
-                    -destination "platform=iOS Simulator,name=iPhone 14" \
-                    -derivedDataPath "/tmp/app" \
-                    -configuration "Debug"
-
       # - name: Extract simulator uid
       #   run: |
       #     echo "SIM_ID=$(xcrun simctl list devices available | grep 'iPhone 14' | grep -E -o -i '([0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12})' | head -1)" >> $GITHUB_ENV
@@ -78,10 +70,23 @@ jobs:
           os_version: '16.2'
           shutdown_after_job: false
 
-      - name: Install app & Run e2e tests
+      # - name: Build app
+      #   run: |
+      #     xcodebuild -project "MaestroDemo.xcodeproj" \
+      #               -scheme "MaestroDemo" \
+      #               -destination "platform=iOS Simulator,name=iPhone 14" \
+      #               -derivedDataPath "/tmp/app" \
+      #               -configuration "Debug"
+
+      # - name: Install app & Run e2e tests
+      #   run: |
+      #     xcrun simctl install booted "/tmp/app/Build/Products/Debug-iphonesimulator/MaestroDemo.app"
+      #     maestro test .maestro/test.yaml
+      #     xcrun simctl shutdown all
+
+      - name: Run setting tests
         run: |
-          xcrun simctl install booted "/tmp/app/Build/Products/Debug-iphonesimulator/MaestroDemo.app"
-          maestro test .maestro/test.yaml
+          maestro test .maestro/settings.yaml
           xcrun simctl shutdown all
 
       # - name: Install app
