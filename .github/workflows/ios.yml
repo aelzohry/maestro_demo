@@ -33,33 +33,31 @@ jobs:
         run: |
           curl -Ls "https://get.maestro.mobile.dev" | bash
           echo "$HOME/.maestro/bin" >> $GITHUB_PATH
-          export PATH="$PATH":"$HOME/.maestro/bin"
           echo "Maestro version: $(maestro --version)"
 
       - uses: futureware-tech/simulator-action@v2
         with:
           model: 'iPhone 14'
           os_version: '16.2'
-          shutdown_after_job: false
+          # shutdown_after_job: false
 
-      # - name: Build app
-      #   run: |
-      #     xcodebuild -project "MaestroDemo.xcodeproj" \
-      #               -scheme "MaestroDemo" \
-      #               -destination "platform=iOS Simulator,name=iPhone 14" \
-      #               -derivedDataPath "/tmp/app" \
-      #               -configuration "Debug"
-
-      # - name: Install app & Run e2e tests
-      #   run: |
-      #     xcrun simctl install booted "/tmp/app/Build/Products/Debug-iphonesimulator/MaestroDemo.app"
-      #     maestro test .maestro/test.yaml
-      #     xcrun simctl shutdown all
-
-      - name: Run setting tests
+      - name: Build app
         run: |
-          maestro test .maestro/settings.yaml
-          xcrun simctl shutdown all
+          xcodebuild -project "MaestroDemo.xcodeproj" \
+                    -scheme "MaestroDemo" \
+                    -destination "platform=iOS Simulator,name=iPhone 14,OS=16.2" \
+                    -derivedDataPath "/tmp/app" \
+                    -configuration "Debug" build
+
+      - name: Install app & Run e2e tests
+        run: |
+          xcrun simctl install booted "/tmp/app/Build/Products/Debug-iphonesimulator/MaestroDemo.app"
+          maestro test .maestro/test.yaml
+      # xcrun simctl shutdown all
+      # - name: Run setting tests
+      #   run: |
+      #     maestro test .maestro/settings.yaml
+      #     xcrun simctl shutdown all
 
       # - name: Install app
       #   run: xcrun simctl install booted "/tmp/app/Build/Products/Debug-iphonesimulator/MaestroDemo.app"
