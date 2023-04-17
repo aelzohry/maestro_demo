@@ -20,8 +20,8 @@ jobs:
           distribution: temurin
           java-version: 11
 
-      # - name: Checkout
-      #   uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
       - name: Xcode select
         run: |
@@ -35,34 +35,6 @@ jobs:
           echo "$HOME/.maestro/bin" >> $GITHUB_PATH
           export PATH="$PATH":"$HOME/.maestro/bin"
           echo "Maestro version: $(maestro --version)"
-
-      # - name: Install maestro via curl
-      #   run: export MAESTRO_VERSION=1.18.5; curl -Ls "https://get.maestro.mobile.dev" | bash
-
-      # - name: Export path
-      #   run: echo "$PATH":"$HOME/.maestro/bin" >> $GITHUB_PATH
-
-      # - name: Install idb client
-      #   run: pip3 install fb-idb
-
-      # - name: List simulators
-      #   run: xcrun simctl list devices
-
-      # - name: Run simulator
-      #   run: |
-      #     xcrun simctl erase 5DD249BC-7C55-4BCD-BC94-03B668FA93C6
-      #     xcrun simctl boot 5DD249BC-7C55-4BCD-BC94-03B668FA93C6
-
-      # - name: Extract simulator uid
-      #   run: |
-      #     echo "SIM_ID=$(xcrun simctl list devices available | grep 'iPhone 14' | grep -E -o -i '([0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12})' | head -1)" >> $GITHUB_ENV
-
-      # - name: Boot simulator & run tests
-      #   run: |
-      #     xcrun simctl erase "${{ env.SIM_ID }}"
-      #     xcrun simctl boot "${{ env.SIM_ID }}"
-      #     xcrun simctl install booted "/tmp/app/Build/Products/Debug-iphonesimulator/MaestroDemo.app"
-      #     maestro test .maestro/test.yaml
 
       - uses: futureware-tech/simulator-action@v2
         with:
@@ -126,6 +98,34 @@ jobs:
         with:
           name: logs-artifact
           path: ~/Library/Logs/maestro/
+
+      # - name: Install maestro via curl
+      #   run: export MAESTRO_VERSION=1.18.5; curl -Ls "https://get.maestro.mobile.dev" | bash
+
+      # - name: Export path
+      #   run: echo "$PATH":"$HOME/.maestro/bin" >> $GITHUB_PATH
+
+      # - name: Install idb client
+      #   run: pip3 install fb-idb
+
+      # - name: List simulators
+      #   run: xcrun simctl list devices
+
+      # - name: Run simulator
+      #   run: |
+      #     xcrun simctl erase 5DD249BC-7C55-4BCD-BC94-03B668FA93C6
+      #     xcrun simctl boot 5DD249BC-7C55-4BCD-BC94-03B668FA93C6
+
+      # - name: Extract simulator uid
+      #   run: |
+      #     echo "SIM_ID=$(xcrun simctl list devices available | grep 'iPhone 14' | grep -E -o -i '([0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12})' | head -1)" >> $GITHUB_ENV
+
+      # - name: Boot simulator & run tests
+      #   run: |
+      #     xcrun simctl erase "${{ env.SIM_ID }}"
+      #     xcrun simctl boot "${{ env.SIM_ID }}"
+      #     xcrun simctl install booted "/tmp/app/Build/Products/Debug-iphonesimulator/MaestroDemo.app"
+      #     maestro test .maestro/test.yaml
 
       # - name: Test idb connection
       #   run: |
