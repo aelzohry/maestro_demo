@@ -26,32 +26,8 @@ jobs:
         run: |
           sudo xcode-select --switch /Applications/Xcode_14.2.app
           sudo xcode-select -p
-      # - name: Check firewall
-      #   run: /usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate --getblockall --getallowsigned --getstealthmode
 
-      # - name: Open Network pane in Prefereneces
-      #   run: open /System/Library/PreferencePanes/Network.prefPane/
-
-      # - name: Check Ports 22087 and 9080
-      #   run: |
-      #     sudo lsof -i tcp:22087
-      #     sudo lsof -i tcp:9080
-
-      # - name: Check hosts
-      #   run: cat /etc/hosts
-
-      # - name: Check All Ports
-      #   run: netstat -an
-
-      # - name: Check Ports for LISTEN
-      #   run: netstat -an | grep LISTEN
-
-      # - name: Install maesttro via brew
-      #   run: |
-      #     brew tap mobile-dev-inc/tap
-      #     brew install maestro
-
-      # Install maestro via curl
+      # Install Maestro via curl
       - name: Install Maestro
         run: |
           curl -Ls "https://get.maestro.mobile.dev" | bash
@@ -80,9 +56,6 @@ jobs:
       #   run: |
       #     echo "SIM_ID=$(xcrun simctl list devices available | grep 'iPhone 14' | grep -E -o -i '([0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12})' | head -1)" >> $GITHUB_ENV
 
-      # - name: Get simulator id
-      #   run: echo "${{ env.SIM_ID }}"
-
       - name: Build app
         run: |
           xcodebuild -project "MaestroDemo.xcodeproj" \
@@ -102,13 +75,19 @@ jobs:
         with:
           model: 'iPhone 14'
           os_version: '16.2'
-          shutdown_after_job: false
+          # shutdown_after_job: false
 
-      - name: Install app & Run e2e tests
-        run: |
-          xcrun simctl install booted "/tmp/app/Build/Products/Debug-iphonesimulator/MaestroDemo.app"
-          maestro test .maestro/test.yaml
-          xcrun simctl shutdown all
+      - name: Install app
+        run: xcrun simctl install booted "/tmp/app/Build/Products/Debug-iphonesimulator/MaestroDemo.app"
+
+      - name: Run tests
+        uses: maestro test .maestro/test.yaml
+
+      # - name: Install app & Run e2e tests
+      #   run: |
+      #     xcrun simctl install booted "/tmp/app/Build/Products/Debug-iphonesimulator/MaestroDemo.app"
+      #     maestro test .maestro/test.yaml
+      #     xcrun simctl shutdown all
 
       # - name: Open simulator
       #   run: open /Applications/Xcode_14.0.1.app/Contents/Developer/Applications/Simulator.app
@@ -118,16 +97,6 @@ jobs:
 
       # - name: Run app tests
       #   run: maestro test .maestro/test.yaml
-
-      # - name: Run settings test
-      #   run: maestro record .maestro/settings.yaml
-
-      # - name: Run maestro hierarchy
-      #   run: maestro hierarchy
-
-      # - name: Run maestro studio
-      #   if: always()
-      #   run: maestro studio
 
       # - name: Check Ports for LISTEN
       #   if: always()
@@ -155,11 +124,28 @@ jobs:
           name: logs-artifact
           path: ~/Library/Logs/maestro/
 
-      # - name: Run maestro hierarchy
-      #   run: maestro hierarchy
-
       # - name: Test idb connection
       #   run: |
       #     idb list-targets
       #     idb launch com.apple.Preferences
       #     idb ui describe-all
+
+      # - name: Check firewall
+      #   run: /usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate --getblockall --getallowsigned --getstealthmode
+
+      # - name: Open Network pane in Prefereneces
+      #   run: open /System/Library/PreferencePanes/Network.prefPane/
+
+      # - name: Check Ports 22087 and 9080
+      #   run: |
+      #     sudo lsof -i tcp:22087
+      #     sudo lsof -i tcp:9080
+
+      # - name: Check hosts
+      #   run: cat /etc/hosts
+
+      # - name: Check All Ports
+      #   run: netstat -an
+
+      # - name: Check Ports for LISTEN
+      #   run: netstat -an | grep LISTEN
