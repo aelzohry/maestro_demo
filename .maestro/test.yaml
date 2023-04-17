@@ -4,3 +4,16 @@ appId: com.aelzohry.MaestroDemo
 - scrollUntilVisible:
     element:
       text: 'Hello, world!'
+- assertVisible:
+    id: 'globe_image'
+- tapOn:
+    id: 'info_button'
+- assertVisible: 'About'
+- assertVisible:
+    id: 'author_name_label'
+    text: 'Ahmed Elzohry'
+- assertVisible:
+    id: 'author_email_label'
+    text: 'aelzohry2010@gmail.com'
+- tapOn: Done
+- assertNotVisible: Done

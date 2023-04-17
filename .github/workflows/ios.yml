@@ -14,11 +14,11 @@ jobs:
           brew install facebook/fb/idb-companion
 
       # NOTE: it must be v2, since v3 is causing issues with maestro test step
-      # - name: Setup Java
-      #   uses: actions/setup-java@v2
-      #   with:
-      #     distribution: temurin
-      #     java-version: 11
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: temurin
+          java-version: 11
 
       - name: Checkout
         uses: actions/checkout@v3

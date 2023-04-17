@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var isSheetPresented: Bool = false
+    
     var body: some View {
-        VStack {
+        VStack(spacing: 12) {
             Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundColor(.accentColor)
@@ -17,8 +19,16 @@ struct ContentView: View {
             
             Text("Hello, world!")
                 .accessibilityIdentifier("hello_world")
+            
+            Button("Info") {
+                isSheetPresented = true
+            }
+            .accessibilityIdentifier("info_button")
         }
         .padding()
+        .sheet(isPresented: $isSheetPresented) {
+            InfoView()
+        }
     }
 }
 
