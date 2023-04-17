@@ -81,7 +81,7 @@ jobs:
         run: xcrun simctl install booted "/tmp/app/Build/Products/Debug-iphonesimulator/MaestroDemo.app"
 
       - name: Run tests
-        uses: maestro test .maestro/test.yaml
+        run: maestro test .maestro/test.yaml
 
       # - name: Install app & Run e2e tests
       #   run: |
